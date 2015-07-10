@@ -11,6 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::group(["middleware" => "locale"], function () {
+  Route::get("/", function () {
+    return view("contact_form");
+  });
+
+  Route::post("/send_message", "SendMessageController@sendMessage");
 });
