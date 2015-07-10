@@ -1,21 +1,79 @@
-@mixin transform-translate($x, $y) {
-  -ms-transform: translate($x, $y);
-  -webkit-transform: translate($x, $y);
-  transform: translate($x, $y);
-  }
+$left-side-width: 25%;
+$right-side-width: 75%;
+
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
 
 body {
-  position: relative;
+  $body-padding: 15%;
+  padding-left: $body-padding;
+  padding-right: $body-padding;
 }
 
-input {
-  width: 100%;
-  margin-bottom: 1em;
+p {
+  text-align: center;
 }
 
-#content {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  @include transform-translate(-50%, +50%);
+form {
+  div {
+    overflow: hidden;
+  }
+  > div {
+    padding-bottom: 5px;
+  }
+}
+
+label {
+  float: left;
+  width: $left-side-width;
+  padding-right: 10px;
+  text-align: right;
+  white-space: nowrap;
+  .dummy {
+    visibility: hidden;
+  }
+}
+
+input, textarea {
+  float: none;
+  width: $right-side-width;
+}
+
+div.error {
+  width: $right-side-width;
+}
+
+span.error {
+  font-size: 80%;
+  float: right;
+}
+
+span.success {
+  font-size: 115%;
+  float: none;
+}
+
+#button {
+  float: right;
+  width: $right-side-width;
+}
+
+@media all and (max-width: 600px) {
+  label, input, textarea, div.error {
+    float: none;
+    width: 100%;
+  }
+
+  span.error {
+    float: right;
+    width: 100%;
+    text-align: right;
+  }
+
+  #button {
+    float: left;
+  }
 }

@@ -3,30 +3,39 @@
 @section("title", trans("messages.contact_form_title"))
 
 @section("content")
-  @if (session("sent"))
-    <div id="message_box">
-      <p>{{trans("messages.send_message_sent_message", ["name" => session("name")])}}</p>
+   <form action="send_message" method="POST" enctype="multipart/form-data">
+    <header>
+      <h1>{{trans("messages.contact_form_title")}}</h1>
+    </header>
+    @foreach (["name", "surname", "photo", "message"] as $field)
+      <div>
+        <label for="{{$field}}">{{trans("messages.contact_form_" . $field . "_field")}}</label>
+        <div>
+          @if ($field === "photo")
+            <input name="{{$field}}" type="file" accept="image/*"><br>
+          @elseif ($field === "message")
+            <textarea name="{{$field}}"></textarea>
+          @else
+            <input name="{{$field}}" type="text">
+          @endif
+          @if ($errors->has($field))
+            <div class="error">
+              <span class="error">{{$errors->first($field)}}<span>
+            </div>
+          @endif
+        </div>
+      </div>
+    @endforeach
+    <div>
+      <div id="button">
+        <button>{{trans("messages.contact_form_send_button")}}</button>
+      </div>
     </div>
-  @endif
-  @if (count($errors) > 0)
-    <div id="error_box">
-      <ul>
-        @foreach ($errors->all() as $error)
-          <li>{{$error}}</li>
-        @endforeach
-      </ul>
-    </div>
-  @endif
-  <form id="contact_form" action="send_message" method="POST" enctype="multipart/form-data">
+    @if (session("sent"))
+      <p>
+        <span class="success">{{trans("messages.send_message_sent_message", ["name" => session("name")])}}</span>
+      </p>
+    @endif
     {{csrf_field()}}
-    <label for="name">{{trans("messages.contact_form_name_field")}}</label>
-    <input name="name"><br>
-    <label for="surname">{{trans("messages.contact_form_surname_field")}}</label>
-    <input name="surname"><br>
-    <label for="photo">{{trans("messages.contact_form_photo_field")}}</label>
-    <input name="photo" type="file" accept="image/*"><br>
-    <label for="message">{{trans("messages.contact_form_message_field")}}</label>
-    <input name="message"><br>
-    <button type="submit">{{trans("messages.contact_form_send_button")}}</button>
   </form>
 @endsection
