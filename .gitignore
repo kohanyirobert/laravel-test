@@ -3,3 +3,5 @@
 Homestead.yaml
 .env
 *.swp
+/public/css/app.css
+/public/css/app.css.map
